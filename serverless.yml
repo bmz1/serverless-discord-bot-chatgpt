@@ -1,0 +1,24 @@
+service: discord-bot
+frameworkVersion: '3'
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: "YOUR_AWS_PROFILE"
+  stage: ${opt:stage,'dev'}
+  region: eu-central-1
+functions:
+  interaction:
+    timeout: 15
+    handler: src/interaction.handler
+    events:
+      - http:
+          path: /interaction
+          method: POST
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-webpack
